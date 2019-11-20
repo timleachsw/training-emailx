@@ -13,8 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         // email matching pattern
-        Pattern emailRegex = Pattern.compile("[\\w.'%+\\-]+@[a-z0-9\\-]+\\.[a-z0-9\\-.]*[a-z0-9\\-]", Pattern.CASE_INSENSITIVE);
-        Pattern domainRegex = Pattern.compile("@(.*)");
+        Pattern emailRegex = Pattern.compile("[\\w.'%+\\-]+@([a-z0-9\\-]+\\.[a-z0-9\\-.]*[a-z0-9\\-])", Pattern.CASE_INSENSITIVE);
 
         File textFile;
         Scanner textScanner;
@@ -34,19 +33,24 @@ public class Main {
         // create hashmap
         HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
         Iterator<MatchResult> it = matches.iterator();
-        for (int i = 0; i < 20; i++) {
+        while (it.hasNext()) {
             MatchResult match = it.next();
-            String matchText = match.group();
+            String domain = match.group(1);
 
             // add to hashmap
-            if (hashMap.containsKey(matchText)) {
-                hashMap.put(matchText, hashMap.get(matchText) + 1);
+            if (hashMap.containsKey(domain)) {
+                hashMap.put(domain, hashMap.get(domain) + 1);
             } else {
-                hashMap.put(matchText, 1);
+                hashMap.put(domain, 1);
             }
         }
 
         // close scanner
         textScanner.close();
+
+        // print all email domains
+        hashMap.forEach((key, value) -> {
+            System.out.println(key + ": " + value.toString());
+        });
     }
 }
