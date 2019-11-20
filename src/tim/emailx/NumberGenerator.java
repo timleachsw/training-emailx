@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class NumberGenerator {
     public static void main(String[] args) throws IOException {
-        long nDigits = (long) 1e9;  // a billion!
+        long nDigits = (long) 1e6;  // a million!
 
         try (FileWriter writer = new FileWriter("data/numbers.txt")) {
             Random random = new Random();
