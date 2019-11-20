@@ -3,12 +3,15 @@ package tim.emailx;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) {
-        // count number of emails
-        int count = 0;
+        // email matching pattern
+        Pattern emailRegex = Pattern.compile("@softwire\\.com");
 
         File textFile;
         Scanner textScanner;
@@ -22,16 +25,9 @@ public class Main {
             return;
         }
 
-        // go through line by line
-        while (textScanner.hasNextLine()) {
-            String line = textScanner.nextLine();
-
-            // walk through line as in pseudocode
-            for (int i = 0; i < line.length() - 13; i++) {
-                if (line.substring(i, i + 13).equals("@softwire.com"))
-                    count++;
-            }
-        }
+        // count occurrences
+        Stream<MatchResult> matches = textScanner.findAll(emailRegex);
+        long count = matches.count();
 
         // show count
         System.out.println(count);
