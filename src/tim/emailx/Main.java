@@ -2,9 +2,7 @@ package tim.emailx;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -30,14 +28,14 @@ public class Main {
         // find matches
         Stream<MatchResult> matches = textScanner.findAll(emailRegex);
 
-        // create hashmap
+        // create HashMap
         HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
         Iterator<MatchResult> it = matches.iterator();
         while (it.hasNext()) {
             MatchResult match = it.next();
             String domain = match.group(1);
 
-            // add to hashmap
+            // add to HashMap
             if (hashMap.containsKey(domain)) {
                 hashMap.put(domain, hashMap.get(domain) + 1);
             } else {
@@ -48,7 +46,12 @@ public class Main {
         // close scanner
         textScanner.close();
 
-        // print all email domains
+        // convert the HashMap to an ArrayList, then sort it
+        // according to the internet, ArrayList is quicker than LinkedList for sorting
+        ArrayList<Map.Entry<String, Integer>> domainCountList = new ArrayList<>(hashMap.entrySet());
+        domainCountList.sort(Comparator.comparingInt(Map.Entry::getValue));
+
+        // print all email domains and their counts
         hashMap.forEach((key, value) -> {
             System.out.println(key + ": " + value.toString());
         });
