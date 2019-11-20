@@ -1,23 +1,14 @@
 package tim.emailx;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         // build HashMap from sample
         HashMap<String, Integer> hashMap;
-        try {
-            hashMap = EmailExtractor.hashMapFromPath("data/sample.txt");
-        } catch (FileNotFoundException e) {
-            System.out.println(String.format("File not found.\nError:\n%s\nExiting.", e.getMessage()));
-            return;
-        }
+        hashMap = EmailExtractor.hashMapFromPath("data/sample.txt");
 
         // convert the HashMap to an ArrayList, then sort it
         // according to the internet, ArrayList is quicker than LinkedList for sorting
